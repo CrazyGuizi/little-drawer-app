@@ -2,12 +2,13 @@ package com.littledrawer.http.service;
 
 import com.example.base.net.response.BaseResponse;
 import com.littledrawer.http.api.Api;
-import com.littledrawer.http.model.User;
+import com.littledrawer.http.bean.User;
 
 import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
 import retrofit2.http.POST;
 
 /**
@@ -17,6 +18,15 @@ import retrofit2.http.POST;
 public interface UserService {
 
     @POST(Api.USER_LOGIN)
-    Call<BaseResponse<User>> test(@Body Map<String, String> map);
+    Call<BaseResponse<User>> login(@Body Map<String, String> map);
+
+    @POST(Api.USER_REGISTER)
+    Call<BaseResponse<User>> register(@Body Map<String, String> map);
+
+    @POST(Api.USER_VALIDATE_USERNAME)
+    Call<BaseResponse<User>> validateUsername(@Body Map<String, String> map);
+
+    @POST(Api.USER_UPDATE_USER)
+    Call<BaseResponse<User>> updateUserInfo(@Body User user);
 
 }

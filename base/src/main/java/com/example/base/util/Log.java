@@ -28,7 +28,8 @@ public class Log {
 
     public static void d(Object o, String s) {
         if (level <= DEBUG) {
-            System.out.println((getTag(o)+ s));
+//            android.util.Log.d(getTag(o), s);
+            System.out.println(getTag(o) + s);
         }
     }
 

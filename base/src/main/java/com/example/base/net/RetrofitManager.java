@@ -61,11 +61,17 @@ public class RetrofitManager {
         call.enqueue(new Callback<BaseResponse<T>>() {
             @Override
             public void onResponse(Call<BaseResponse<T>> call, Response<BaseResponse<T>> response) {
+                BaseResponse<T> body = response.body();
+
                 if (listener != null) {
-                    if (response.body().getCode() == NetConst.CODE_SUCCESS) {
-                        listener.onSuccess(response.body().getData());
+                    if (body != null && body.getCode() == NetConst.CODE_SUCCESS) {
+                            listener.onSuccess(body.getData());
                     } else {
-                        listener.onFail(new BaseException(response.body().getMsg()));
+                        if (body != null) {
+                            listener.onFail(new BaseException(response.body().getMsg()));
+                        } else {
+                            listener.onFail(new BaseException("请求出错"));
+                        }
                     }
                 }
             }
@@ -74,7 +80,7 @@ public class RetrofitManager {
             public void onFailure(Call<BaseResponse<T>> call, Throwable t) {
                 if (listener != null) {
                     listener.onFail(new BaseException("网络出错"));
-                    Log.d(this, t.toString());
+                    Log.d(this, "处理响应出错" + t.toString());
                 }
             }
         });

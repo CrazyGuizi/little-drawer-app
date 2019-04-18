@@ -55,11 +55,10 @@ public class HttpClient {
 
             Request request = chain.request();
             // 设置token
-            if (HeadConfig.getInstance().isLogin()) {
+            if (AuthUtil.getInstance().isLogin()) {
                 request = request.newBuilder()
-                        .addHeader(NetConst.HEADER_TOKEN, HeadConfig.getInstance().getToken())
-                        .addHeader(NetConst.UID, "" + HeadConfig.getInstance().getUserId())
-                        .addHeader(NetConst.NICKNAME, HeadConfig.getInstance().getNickName())
+                        .addHeader(NetConst.HEADER_TOKEN, AuthUtil.getInstance().getToken())
+                        .addHeader(NetConst.UID, "" + AuthUtil.getInstance().getUserId())
                         .build();
             }
 
@@ -72,7 +71,7 @@ public class HttpClient {
             long t2 = System.nanoTime();
             Response response = chain.proceed(request);
             Log.d(HttpClient.this,
-                    String.format("接收响应 %s in %.1fms%n%s",
+                    String.format("\n接收响应 %s in %.1fms%n%s",
                             response.request().url(), (t2 - t1) / 1e6d, response.headers()));
             return response;
         }

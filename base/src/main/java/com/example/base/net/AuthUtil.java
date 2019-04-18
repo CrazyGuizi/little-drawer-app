@@ -4,20 +4,26 @@ package com.example.base.net;
  * @author 土小贵
  * @date 2019/4/17 16:32
  */
-public class HeadConfig {
-    private static volatile HeadConfig INSTANCE = new HeadConfig();
+public class AuthUtil {
+    private static volatile AuthUtil INSTANCE = null;
 
     private String mToken;
     private int userId;
     private String nickName;
-
     private boolean isLogin;
 
 
-    public HeadConfig() {
-    }
+    public AuthUtil() { }
 
-    public static synchronized HeadConfig getInstance() {
+    public static AuthUtil getInstance() {
+        if (INSTANCE == null) {
+            synchronized (AuthUtil.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = new AuthUtil();
+                }
+            }
+        }
+
         return INSTANCE;
     }
 

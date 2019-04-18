@@ -1,44 +1,122 @@
 package com.littledrawer;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.widget.TextView;
+import android.view.MenuItem;
 
-import com.example.base.net.RetrofitManager;
-import com.example.base.net.exception.BaseException;
-import com.example.base.net.listener.BaseListener;
-import com.example.base.net.response.BaseResponse;
-import com.example.base.util.Log;
-import com.littledrawer.http.model.User;
-import com.littledrawer.http.service.UserService;
+import com.littledrawer.common.BaseActivity;
+import com.littledrawer.common.BaseFragment;
+import com.littledrawer.common.view.BottomNavigationView;
+import com.littledrawer.me.ui.MeFragment;
+import com.littledrawer.news.view.NewsFragment;
+import com.littledrawer.picture.ui.PictureFragment;
+import com.littledrawer.util.TopicTag;
+import com.littledrawer.video.ui.VideoFragment;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
-import retrofit2.Call;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import butterknife.BindView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
+
+    private FragmentManager mFragmentManager;
+    private List<BaseFragment> mFragments;
+
+    @BindView(R.id.bottom_navigation_view)
+    BottomNavigationView mBottomNavigationView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    public int getLayout() {
+        return R.layout.activity_main;
+    }
 
-        RetrofitManager manager = RetrofitManager.getInstance();
-        Map<String, String> map = new HashMap<>();
-        map.put("username", "ldg000");
-        map.put("password", "123456");
-        manager.request(manager.getService(UserService.class)
-                .test(map), new BaseListener<User>() {
-            @Override
-            public void onSuccess(User user) {
-                ((TextView) findViewById(R.id.tv_show)).setText(user.toString());
+    @Override
+    public void initWidget() {
+        super.initWidget();
+        mFragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = mFragmentManager.beginTransaction();
+        if (mFragments == null) {
+            mFragments = new ArrayList<>();
+            mFragments.add(TopicTag.NEWS.topicIndex, NewsFragment.getInstance());
+            mFragments.add(TopicTag.VIDEO.topicIndex, VideoFragment.getInstance());
+            mFragments.add(TopicTag.PICTURE.topicIndex, PictureFragment.getInstance());
+            mFragments.add(TopicTag.ME.topicIndex, MeFragment.getInstance());
+        }
+        transaction.add(R.id.container, mFragments.get(TopicTag.NEWS.topicIndex));
+        transaction.commit();
+
+    }
+
+    @Override
+    public void initEvent() {
+        mBottomNavigationView.setOnNavigationItemSelectedListener(mNavSelectedListener);
+    }
+
+    BottomNavigationView.OnNavigationItemSelectedListener mNavSelectedListener = new com.google.android.material.bottomnavigation.BottomNavigationView.OnNavigationItemSelectedListener() {
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.navigation_news:
+                    handleSelectedFragment(TopicTag.NEWS);
+                    return true;
+                case R.id.navigation_video:
+                    handleSelectedFragment(TopicTag.VIDEO);
+                    return true;
+                case R.id.navigation_picture:
+                    handleSelectedFragment(TopicTag.PICTURE);
+                    return true;
+                case R.id.navigation_me:
+                    handleSelectedFragment(TopicTag.ME);
+                    return true;
+            }
+            return false;
+        }
+    };
+
+    private void handleSelectedFragment(TopicTag topicTag) {
+        BaseFragment fragment = mFragments.get(topicTag.topicIndex);
+        if (fragment == null) {
+            if (topicTag.topicIndex == TopicTag.NEWS.topicIndex) {
+                fragment = NewsFragment.getInstance();
+            } else if (topicTag.topicIndex == TopicTag.VIDEO.topicIndex) {
+                fragment = VideoFragment.getInstance();
+            } else if (topicTag.topicIndex == TopicTag.PICTURE.topicIndex) {
+                fragment = PictureFragment.getInstance();
+            } else if (topicTag.topicIndex == TopicTag.ME.topicIndex) {
+                fragment = MeFragment.getInstance();
             }
 
-            @Override
-            public void onFail(BaseException e) {
-                ((TextView) findViewById(R.id.tv_show)).setText(e.msg);
+            mFragments.add(topicTag.topicIndex, fragment);
+            mFragmentManager.beginTransaction()
+                    .add(R.id.container, fragment)
+                    .commit();
+        } else {
+            if (!fragment.isAdded()) {
+                mFragmentManager.beginTransaction()
+                        .add(R.id.container, fragment)
+                        .commit();
             }
-        });
+            showFragment(topicTag.topicIndex);
+        }
+    }
+
+    /**
+     * 显示选中的fragment
+     * @param index
+     */
+    private void showFragment(int index) {
+        FragmentTransaction transaction = mFragmentManager.beginTransaction();
+        if (transaction != null) {
+            for (int i = 0; i < mFragments.size(); i++) {
+                if (index == i) {
+                    transaction.show(mFragments.get(index));
+                } else {
+                    transaction.hide(mFragments.get(i));
+                }
+            }
+            transaction.commit();
+        }
     }
 }

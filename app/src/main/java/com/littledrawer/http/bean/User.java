@@ -1,16 +1,16 @@
-package com.littledrawer.http.model;
+package com.littledrawer.http.bean;
 
 /**
  * @author 土小贵
  * @date 2019/4/17 21:56
  */
 public class User {
-    private Integer id;
-    private String  nickName;
-    private String  username;
-    private String  password;
-    private String  iconUrl;
-    private String  token;
+    public Integer id;
+    public String  nickName;
+    public String  username;
+    public String  password;
+    public String  iconUrl;
+    public String  token;
 
     public Integer getId() {
         return id;
