@@ -1,4 +1,4 @@
-package com.littledrawer.news.view;
+package com.littledrawer.news.ui;
 
 import android.view.View;
 

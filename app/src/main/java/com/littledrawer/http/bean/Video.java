@@ -1,25 +1,29 @@
 package com.littledrawer.http.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * @author 土小贵
  * @date 2019/4/18 9:16
  */
-public class Video {
-    private int id;
-    private String title;
-    private String describe;
+public class Video implements Parcelable {
+    public int id;
+    public String title;
+    public String describe;
     // 视频封面
-    private String posterUrl;
+    public String posterUrl;
     // 视频源
-    private String sourceUrl;
-    private int like;
-    private int click;
-    private Date date;
-    private int typeIndex;
-    private String typeName;
-    private User author;
+    public String sourceUrl;
+    public int like;
+    public int click;
+    public Date date;
+    public int typeIndex;
+    public String typeName;
+    public User author;
 
     public int getId() {
         return id;
@@ -108,4 +112,55 @@ public class Video {
     public void setAuthor(User author) {
         this.author = author;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeString(this.title);
+        dest.writeString(this.describe);
+        dest.writeString(this.posterUrl);
+        dest.writeString(this.sourceUrl);
+        dest.writeInt(this.like);
+        dest.writeInt(this.click);
+        dest.writeLong(this.date != null ? this.date.getTime() : -1);
+        dest.writeInt(this.typeIndex);
+        dest.writeString(this.typeName);
+        dest.writeParcelable(this.author, flags);
+    }
+
+    public Video() {
+    }
+
+    protected Video(Parcel in) {
+        this.id = in.readInt();
+        this.title = in.readString();
+        this.describe = in.readString();
+        this.posterUrl = in.readString();
+        this.sourceUrl = in.readString();
+        this.like = in.readInt();
+        this.click = in.readInt();
+        long tmpDate = in.readLong();
+        this.date = tmpDate == -1 ? null : new Date(tmpDate);
+        this.typeIndex = in.readInt();
+        this.typeName = in.readString();
+        this.author = in.readParcelable(User.class.getClassLoader());
+    }
+
+    public static final Creator<Video> CREATOR = new Creator<Video>() {
+        @Override
+        public Video createFromParcel(Parcel source) {
+            return new Video(source);
+        }
+
+        @Override
+        public Video[] newArray(int size) {
+            return new Video[size];
+        }
+    };
 }

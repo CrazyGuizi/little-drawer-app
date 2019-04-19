@@ -1,6 +1,7 @@
 package com.littledrawer.common;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
@@ -38,6 +39,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         return "";
     }
 
+
+    protected void getIntentData(Intent intent) {
+
+    }
+
     public void initWidget() {
     }
 
@@ -51,6 +57,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getIntentData(getIntent());
         setContentView(getLayout());
         mActivity = this;
         mWeakRefActivity = new WeakReference<>(this);

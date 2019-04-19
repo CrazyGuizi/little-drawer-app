@@ -9,4 +9,9 @@
     <string name="title_video">视频</string>
     <string name="title_picture">图片</string>
     <string name="title_me">我的</string>
+
+    <string name="hint_comment">说点什么吧</string>
+    <string name="all_comment">全部评论</string>
+    <string name="text_send">发送</string>
+    <string name="text_no_content">额...这里什么都没有</string>
 </resources>

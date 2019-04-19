@@ -1,10 +1,13 @@
 package com.littledrawer.http.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * @author 土小贵
  * @date 2019/4/17 21:56
  */
-public class User {
+public class User implements Parcelable {
     public Integer id;
     public String  nickName;
     public String  username;
@@ -71,4 +74,43 @@ public class User {
                 ", token='" + token + '\'' +
                 '}';
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(this.id);
+        dest.writeString(this.nickName);
+        dest.writeString(this.username);
+        dest.writeString(this.password);
+        dest.writeString(this.iconUrl);
+        dest.writeString(this.token);
+    }
+
+    public User() {
+    }
+
+    protected User(Parcel in) {
+        this.id = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.nickName = in.readString();
+        this.username = in.readString();
+        this.password = in.readString();
+        this.iconUrl = in.readString();
+        this.token = in.readString();
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel source) {
+            return new User(source);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 }

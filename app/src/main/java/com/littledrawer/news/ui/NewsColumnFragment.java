@@ -1,4 +1,4 @@
-package com.littledrawer.news.view;
+package com.littledrawer.news.ui;
 
 import android.os.Bundle;
 import android.view.View;
@@ -14,14 +14,15 @@ import com.littledrawer.http.bean.News;
 import com.littledrawer.http.service.NewsService;
 import com.littledrawer.news.adapter.NewsColumnAdapter;
 import com.littledrawer.util.NewsColumn;
-import com.littledrawer.util.Util;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 
 /**
@@ -34,16 +35,17 @@ public class NewsColumnFragment extends BaseFragment {
 
     private NewsColumn mColumn;
     // 请求分页
-    private static final String COLUMN = "column";
-    private static final String PAGE_NUM = "pageNum";
-    private static final String PAGE_SIZE = "pageSize";
     private int pageNum = 1;
     private static final int pageSize = 20;
 
     private NewsColumnAdapter mAdapter;
+    private List<News> mNews = new ArrayList<>();
 
     @BindView(R.id.recycler)
     RecyclerView mRecyclerView;
+
+    @BindView(R.id.swipe_refresh)
+    SwipeRefreshLayout mRefresh;
 
     public static NewsColumnFragment getInstance(NewsColumn column) {
         Bundle bundle = new Bundle();
@@ -72,37 +74,54 @@ public class NewsColumnFragment extends BaseFragment {
         }
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mAdapter);
-        mAdapter.setOnLoadMoreListener(() -> {
-            pageNum++;
-            setupData();
-        }, mRecyclerView);
     }
 
     @Override
     protected void initEvent() {
         super.initEvent();
+        mRefresh.setOnRefreshListener(() ->{
+            pageNum++;
+            setupData();
+        });
+
         setupData();
+        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                News news = mNews.get(position);
+                NewsDetailActivity.startActivity(getActivity(), news);
+            }
+        });
     }
 
     private void setupData() {
+        if (mRefresh != null && !mRefresh.isRefreshing()) {
+            mRefresh.setRefreshing(true);
+        }
         RetrofitManager rm = RetrofitManager.getInstance();
         Map<String, Object> map = new HashMap<>();
-        map.put(COLUMN, mColumn.columnName);
-        map.put(PAGE_NUM, pageNum);
-        map.put(PAGE_SIZE, pageSize);
+        map.put(NewsService.COLUMN, mColumn.columnName);
+        map.put(NewsService.PAGE_NUM, pageNum);
+        map.put(NewsService.PAGE_SIZE, pageSize);
         Log.d(this, mColumn.columnName);
         rm.request(rm.getService(NewsService.class)
                 .getNewsByColumn(map), new BaseListener<List<News>>() {
             @Override
             public void onSuccess(List<News> news) {
                 if (news != null && news.size() > 0) {
+                    if (mRefresh.isRefreshing()) {
+                        mRefresh.setRefreshing(false);
+                    }
+                    mNews = news;
                     mAdapter.setNewData(news);
                 }
             }
 
             @Override
             public void onFail(BaseException e) {
-
+                if (mRefresh.isRefreshing()) {
+                    mRefresh.setRefreshing(false);
+                }
             }
         });
     }

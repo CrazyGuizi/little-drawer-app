@@ -27,4 +27,12 @@
         <item name="tabTextColor">#757575</item>
     </style>
 
+    <style name="VideoTabLayout" parent="Widget.MaterialComponents.TabLayout">
+        <item name="tabIndicatorColor">@color/white</item>
+        <item name="tabIndicatorHeight">3dp</item>
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="tabSelectedTextColor">@color/white_text</item>
+        <item name="tabTextColor">#757575</item>
+    </style>
+
 </resources>

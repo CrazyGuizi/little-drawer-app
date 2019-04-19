@@ -1,7 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:cardCornerRadius="@dimen/dp_4"
+    android:elevation="@dimen/dp_1"
+    android:layout_marginBottom="@dimen/dp_4"
+    android:layout_marginLeft="@dimen/dp_2"
+    android:layout_marginRight="@dimen/dp_2">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dp_8">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/dp_8"
+            tools:text="这里是标题这里是标题这里是标题这里是标题这里是标题"
+            android:textStyle="bold"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/iv_cover_1"/>
+
+        <ImageView
+            android:id="@+id/iv_cover_1"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_100"
+            android:layout_margin="@dimen/dp_8"
+            tools:background="@color/colorAccent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/iv_cover_2"
+            app:layout_constraintTop_toBottomOf="@id/tv_title"
+            app:layout_constraintBottom_toTopOf="@id/tv_author"/>
+
+        <ImageView
+            android:id="@+id/iv_cover_2"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_100"
+            android:layout_margin="@dimen/dp_8"
+            tools:background="@color/colorPrimary"
+            app:layout_constraintLeft_toRightOf="@id/iv_cover_1"
+            app:layout_constraintRight_toLeftOf="@id/iv_cover_3"
+            app:layout_constraintTop_toTopOf="@id/iv_cover_1"
+            app:layout_constraintBottom_toBottomOf="@id/iv_cover_1"/>
+
+        <ImageView
+            android:id="@+id/iv_cover_3"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_100"
+            android:layout_margin="@dimen/dp_8"
+            tools:background="@color/colorPrimaryDark"
+            app:layout_constraintLeft_toRightOf="@id/iv_cover_2"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/iv_cover_1"
+            app:layout_constraintBottom_toBottomOf="@id/iv_cover_1"/>
+
+        <TextView
+            android:id="@+id/tv_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_8"
+            android:textColor="@color/light_black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/tv_date"
+            app:layout_constraintTop_toBottomOf="@id/iv_cover_1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            tools:text="作者"/>
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/light_black"
+            android:layout_marginLeft="@dimen/dp_10"
+            tools:text="22:58:192019-4-18 22:58:19"
+            app:layout_constraintLeft_toRightOf="@id/tv_author"
+            app:layout_constraintTop_toTopOf="@id/tv_author"/>
+
+   </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

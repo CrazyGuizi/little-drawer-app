@@ -6,7 +6,7 @@ import com.littledrawer.common.BaseActivity;
 import com.littledrawer.common.BaseFragment;
 import com.littledrawer.common.view.BottomNavigationView;
 import com.littledrawer.me.ui.MeFragment;
-import com.littledrawer.news.view.NewsFragment;
+import com.littledrawer.news.ui.NewsFragment;
 import com.littledrawer.picture.ui.PictureFragment;
 import com.littledrawer.util.TopicTag;
 import com.littledrawer.video.ui.VideoFragment;
