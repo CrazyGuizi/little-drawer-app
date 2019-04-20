@@ -14,4 +14,18 @@
     <string name="all_comment">全部评论</string>
     <string name="text_send">发送</string>
     <string name="text_no_content">额...这里什么都没有</string>
+    <string name="text_comment">评论</string>
+    <string name="see_comment">查看评论</string>
+    <string name="units_comment">条</string>
+    <string name="see_reply">查看回复</string>
+    <string name="close_reply">收起回复</string>
+    <string name="text_reply">回复</string>
+    <string name="text_report">举报</string>
+
+    <string name="text_please_login">请先登录在进行操作</string>
+    <string name="text_have_liked">你已经点过赞咯</string>
+    <string name="text_describe">简介：</string>
+    <string name="text_no_describe">该视频没有介绍</string>
+    <string name="text_cancel_collect_fail">取消收藏失败</string>
+    <string name="text_collect_fail">收藏失败</string>
 </resources>

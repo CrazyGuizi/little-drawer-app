@@ -1,5 +1,7 @@
 package com.littledrawer.http.bean;
 
+import com.chad.library.adapter.base.entity.MultiItemEntity;
+
 import java.util.Date;
 
 /**
@@ -8,16 +10,16 @@ import java.util.Date;
  */
 public class Reply {
 
-    private int id;
-    private String content;
-    private Date date;
-    private int commentId;
+    public int id;
+    public String content;
+    public Date date;
+    public int commentId;
     // 回复类型，0代表回复评论， 1代表回复回复
-    private int replyType;
+    public int replyType;
     // 回复的那个东西的id，如果那东西是回复评论就是评论id，如果是回复那就是回复id
-    private int replyId;
-    private User fromUser;
-    private User toUser;
+    public int replyId;
+    public User fromUser;
+    public User toUser;
 
     public int getId() {
         return id;

@@ -101,6 +101,6 @@ public class NoContentView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.drawText(mContent, 0, 0, mTextPaint);
-        canvas.drawBitmap(mBitmap, mSrcRect, mDestRect, mBitmapPaint);
+//        canvas.drawBitmap(mBitmap, mSrcRect, mDestRect, mBitmapPaint);
     }
 }

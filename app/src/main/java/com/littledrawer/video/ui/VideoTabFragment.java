@@ -96,6 +96,7 @@ public class VideoTabFragment extends BaseFragment {
                         Glide.with(getActivity())
                                 .load(video.posterUrl)
                                 .centerCrop()
+                                .placeholder(getActivity().getDrawable(R.drawable.picture_default))
                                 .into((ImageView)helper.getView(R.id.iv_poster));
                         Glide.with(getActivity())
                                 .load(video.author.iconUrl)
@@ -141,10 +142,11 @@ public class VideoTabFragment extends BaseFragment {
                 .getVideosByType(map), new BaseListener<List<Video>>() {
             @Override
             public void onSuccess(List<Video> videos) {
+
+                if (mRefresh.isRefreshing()) {
+                    mRefresh.setRefreshing(false);
+                }
                 if (videos != null && !videos.isEmpty()) {
-                    if (mRefresh.isRefreshing()) {
-                        mRefresh.setRefreshing(false);
-                    }
                     mVideos = videos;
                     mAdapter.setNewData(videos);
                 }

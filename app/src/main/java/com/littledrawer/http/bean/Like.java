@@ -9,12 +9,12 @@ import java.util.Date;
  * @date 2019/4/18 9:17
  */
 public class Like {
-    private int id;
-    private Date date;
-    private int status;
-    private int topicType;
-    private int topicId;
-    private User liker;
+    public int id;
+    public Date date;
+    public int status;
+    public int topicType;
+    public int topicId;
+    public User liker;
 
     public int getId() {
         return id;

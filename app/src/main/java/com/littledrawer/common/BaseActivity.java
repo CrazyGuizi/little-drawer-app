@@ -58,6 +58,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getIntentData(getIntent());
+        beforeInitWidget();
         setContentView(getLayout());
         mActivity = this;
         mWeakRefActivity = new WeakReference<>(this);
@@ -68,6 +69,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         initWidget();
         initEvent();
     }
+
+    protected void beforeInitWidget(){}
 
     private void setupToolbar() {
         mToolbar = findViewById(R.id.toolbar);

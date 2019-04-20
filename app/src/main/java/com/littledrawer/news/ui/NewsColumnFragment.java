@@ -1,5 +1,6 @@
 package com.littledrawer.news.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -108,10 +109,10 @@ public class NewsColumnFragment extends BaseFragment {
                 .getNewsByColumn(map), new BaseListener<List<News>>() {
             @Override
             public void onSuccess(List<News> news) {
+                if (mRefresh.isRefreshing()) {
+                    mRefresh.setRefreshing(false);
+                }
                 if (news != null && news.size() > 0) {
-                    if (mRefresh.isRefreshing()) {
-                        mRefresh.setRefreshing(false);
-                    }
                     mNews = news;
                     mAdapter.setNewData(news);
                 }

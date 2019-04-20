@@ -1,10 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".video.ui.VideoDetailActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
+        android:id="@+id/video_player"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_250"/>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_16"
+                android:padding="@dimen/dp_8"
+                android:gravity="center_vertical">
+
+                <com.littledrawer.common.view.RoundView
+                    android:id="@+id/iv_icon"
+                    android:layout_width="@dimen/dp_40"
+                    android:layout_height="@dimen/dp_40"
+                    tools:background="@color/DarkGray"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/tv_author"/>
+
+                <TextView
+                    android:id="@+id/tv_author"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_8"
+                    android:maxEms="10"
+                    android:ellipsize="end"
+                    app:layout_constraintLeft_toRightOf="@id/iv_icon"
+                    app:layout_constraintTop_toTopOf="@id/iv_icon"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_icon"
+                    tools:text="土小贵"/>
+
+                <ImageView
+                    android:id="@+id/iv_like"
+                    android:layout_width="@dimen/dp_24"
+                    android:layout_height="@dimen/dp_24"
+                    android:layout_marginRight="@dimen/dp_8"
+                    android:background="@drawable/icon_unlike"
+                    app:layout_constraintTop_toTopOf="@id/iv_icon"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_icon"
+                    app:layout_constraintRight_toLeftOf="@id/tv_like"/>
+
+                <TextView
+                    android:id="@+id/tv_like"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/dp_56"
+                    android:text="0"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/iv_icon"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_icon"/>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/tv_describe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8"
+                android:padding="@dimen/dp_8"
+                tools:text="这里是介绍"/>
+
+            <com.littledrawer.common.view.CommentView
+                android:id="@+id/comment_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/dp_16"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

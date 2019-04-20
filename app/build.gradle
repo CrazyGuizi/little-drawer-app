@@ -51,4 +51,7 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'com.zzhoujay.richtext:richtext:3.0.7'
+
+    implementation 'com.shuyu:GSYVideoPlayer:7.0.1'
+
 }

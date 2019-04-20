@@ -9,16 +9,16 @@ import java.util.Date;
  * @date 2019/4/18 9:16
  */
 public class Picture {
-    private int id;
-    private String title;
-    private String url;
-    private String content;
-    private int like;
-    private int collections;
-    private Date date;
-    private int topicType;
-    private int topicId;
-    private User author;
+    public int id;
+    public String title;
+    public String url;
+    public String content;
+    public int like;
+    public int collections;
+    public Date date;
+    public int topicType;
+    public int topicId;
+    public User author;
 
     public int getId() {
         return id;

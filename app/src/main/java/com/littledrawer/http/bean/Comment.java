@@ -1,5 +1,9 @@
 package com.littledrawer.http.bean;
 
+import com.chad.library.adapter.base.entity.AbstractExpandableItem;
+import com.chad.library.adapter.base.entity.IExpandable;
+import com.chad.library.adapter.base.entity.MultiItemEntity;
+
 import java.util.Date;
 import java.util.List;
 
@@ -8,14 +12,13 @@ import java.util.List;
  * @date 2019/4/18 9:18
  */
 public class Comment {
-
-    private int id;
-    private String content;
-    private Date date;
-    private int topicType;
-    private int topicId;
-    private User fromUser;
-    private List<Reply> replys;
+   public int id;
+   public String content;
+   public Date date;
+   public int topicType;
+   public int topicId;
+   public User fromUser;
+   public List<Reply> replys;
 
     public int getId() {
         return id;
@@ -72,4 +75,6 @@ public class Comment {
     public void setReplys(List<Reply> replys) {
         this.replys = replys;
     }
+
+    public boolean isExpanded = false;
 }
