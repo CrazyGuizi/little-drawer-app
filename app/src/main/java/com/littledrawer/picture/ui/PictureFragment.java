@@ -3,6 +3,7 @@ package com.littledrawer.picture.ui;
 import android.os.Build;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -75,7 +76,8 @@ public class PictureFragment extends BaseFragment {
 
         if (mRecyclerView != null) {
             mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-            mRecyclerView.setAdapter(mAdapter);
+//            mRecyclerView.setAdapter(mAdapter);
+            mAdapter.bindToRecyclerView(mRecyclerView);
         }
     }
 
@@ -94,9 +96,6 @@ public class PictureFragment extends BaseFragment {
      * 请求图片数据
      */
     private void requestPicture() {
-        if (mRefreshLayout.isRefreshing()) {
-            return;
-        }
         mRefreshLayout.setRefreshing(true);
         RetrofitManager manager = RetrofitManager.getInstance();
         Map<String, String> map = new HashMap<>();
@@ -106,7 +105,9 @@ public class PictureFragment extends BaseFragment {
                 .getFunnyPicturesRandom(map), new BaseListener<List<Picture>>() {
             @Override
             public void onSuccess(List<Picture> pictures) {
-                mRefreshLayout.setRefreshing(false);
+                if (mRefreshLayout.isRefreshing()) {
+                    mRefreshLayout.setRefreshing(false);
+                }
                 if (pictures != null) {
                     mPictures = pictures;
                     mAdapter.setNewData(pictures);
@@ -138,31 +139,31 @@ public class PictureFragment extends BaseFragment {
                         // 如果用户已经登录，则去查看该用户是否已经点赞过或收藏过这个图片
                         if (AuthUtil.getInstance().isLogin()) {
                             getLikeStatus(picture, (status) -> {
-                                        ImageView view = helper.getView(R.id.iv_like);
-                                        view.setTag(status);
-                                        if (status) {
-                                            view.setImageDrawable(getContext().getDrawable(R.drawable.icon_like));
-                                            // 不允许取消赞
-                                            view.setClickable(false);
-                                        } else {
-                                            view.setImageDrawable(getContext().getDrawable(R.drawable.icon_unlike));
-                                            view.setClickable(true);
-                                        }
-                                    });
+                                ImageView view = helper.getView(R.id.iv_like);
+                                view.setTag(status);
+                                if (status) {
+                                    view.setImageDrawable(getContext().getDrawable(R.drawable.icon_like));
+                                    // 不允许取消赞
+                                    view.setClickable(false);
+                                } else {
+                                    view.setImageDrawable(getContext().getDrawable(R.drawable.icon_unlike));
+                                    view.setClickable(true);
+                                }
+                            });
 
 
                             getCollectionStatus(picture, (status) -> {
-                                        ImageView view = helper.getView(R.id.iv_collect);
-                                        // 保存tag，收藏操作
-                                        view.setTag(status);
-                                        if (status) {
-                                            // 收藏过了
-                                            view.setImageDrawable(getContext().getDrawable(R.drawable.icon_collected));
-                                        } else {
-                                            // 没收藏
-                                            view.setImageDrawable(getContext().getDrawable(R.drawable.icon_uncollected));
-                                        }
-                                    });
+                                ImageView view = helper.getView(R.id.iv_collect);
+                                // 保存tag，收藏操作
+                                view.setTag(status);
+                                if (status) {
+                                    // 收藏过了
+                                    view.setImageDrawable(getContext().getDrawable(R.drawable.icon_collected));
+                                } else {
+                                    // 没收藏
+                                    view.setImageDrawable(getContext().getDrawable(R.drawable.icon_uncollected));
+                                }
+                            });
                         }
 
                         // 设置点击监听
@@ -195,14 +196,16 @@ public class PictureFragment extends BaseFragment {
 
     /**
      * 用户收藏行为
+     *
      * @param position
      */
     private void handleCollect(int position) {
         if (mAdapter != null) {
             ImageView collectImage = (ImageView) mAdapter.getViewByPosition(position, R.id.iv_collect);
+            TextView collectText = (TextView) mAdapter.getViewByPosition(position, R.id.tv_collect);
             boolean hasCollected = false;
             if (collectImage.getTag() != null) {
-                hasCollected = (boolean)collectImage.getTag();
+                hasCollected = (boolean) collectImage.getTag();
             }
 
             RetrofitManager manager = RetrofitManager.getInstance();
@@ -222,6 +225,7 @@ public class PictureFragment extends BaseFragment {
                         // 取消成功
                         collectImage.setImageDrawable(getContext().getDrawable(R.drawable.icon_uncollected));
                         collectImage.setTag(false);
+                        collectText.setText("" + (Integer.parseInt(collectText.getText().toString())-1));
                     }
 
                     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -242,7 +246,7 @@ public class PictureFragment extends BaseFragment {
                 collection.setTopicType(TopicTag.PICTURE.topicIndex);
                 collection.setTopicId(mPictures.get(position).id);
                 User collector = new User();
-                collection.setId(AuthUtil.getInstance().getUserId());
+                collector.setId(AuthUtil.getInstance().getUserId());
                 collection.setCollector(collector);
                 manager.request(manager.getService(CollectionService.class)
                         .addCollection(collection), new BaseListener<Collection>() {
@@ -254,6 +258,7 @@ public class PictureFragment extends BaseFragment {
                             collectImage.setImageDrawable(getContext()
                                     .getDrawable(R.drawable.icon_collected));
                             collectImage.setTag(true);
+                            collectText.setText("" + (Integer.parseInt(collectText.getText().toString())+1));
                         } else {
                             // 收藏失败
                             collectImage.setImageDrawable(getContext()
@@ -277,17 +282,19 @@ public class PictureFragment extends BaseFragment {
 
     /**
      * 用户点赞行为
+     *
      * @param position
      */
     private void handleLike(int position) {
         if (mAdapter != null) {
             ImageView likeImage = (ImageView) mAdapter.getViewByPosition(position, R.id.iv_like);
+            TextView likeText = (TextView) mAdapter.getViewByPosition(position, R.id.tv_like);
             boolean hasLiked = false;
             if (likeImage.getTag() != null) {
-                hasLiked = (boolean)likeImage.getTag();
+                hasLiked = (boolean) likeImage.getTag();
             }
 
-            if (hasLiked) {
+            if (hasLiked || !likeImage.isClickable()) {
                 Toast.makeText(getContext(), getString(R.string.text_have_liked), Toast.LENGTH_SHORT).show();
             } else {
                 RetrofitManager manager = RetrofitManager.getInstance();
@@ -295,6 +302,9 @@ public class PictureFragment extends BaseFragment {
                 like.setTopicType(TopicTag.PICTURE.topicIndex);
                 like.setTopicId(mPictures.get(position).id);
                 like.setStatus(1);
+                User liker = new User();
+                liker.setId(AuthUtil.getInstance().getUserId());
+                like.setLiker(liker);
                 manager.request(manager.getService(LikeService.class)
                         .addLike(like), new BaseListener<Like>() {
                     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -302,6 +312,9 @@ public class PictureFragment extends BaseFragment {
                     public void onSuccess(Like like) {
                         likeImage.setImageDrawable(getContext().getDrawable(R.drawable.icon_like));
                         likeImage.setTag(false);
+                        int likeCount = Integer.parseInt(likeText.getText().toString());
+                        likeText.setText("" + (likeCount + 1));
+                        likeImage.setClickable(false);
                     }
 
                     @Override

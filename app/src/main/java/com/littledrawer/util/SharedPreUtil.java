@@ -20,13 +20,13 @@ public class SharedPreUtil {
         if (context !=  null) {
             sPreferences = context.getSharedPreferences(Const.SHARED_PREFERENCES_NAME,
                     Context.MODE_PRIVATE);
-            if (sPreferences != null && sEditor != null) {
+            if (sPreferences != null && sEditor == null) {
                 sEditor = sPreferences.edit();
             }
         }
     }
 
-    public static boolean putInt(String key, int val) {
+    public static boolean save(String key, int val) {
         if (sEditor != null) {
             sEditor.putInt(key, val);
             return sEditor.commit();
@@ -35,7 +35,7 @@ public class SharedPreUtil {
         return false;
     }
 
-    public static boolean putInt(String key, boolean val) {
+    public static boolean save(String key, boolean val) {
         if (sEditor != null) {
             sEditor.putBoolean(key, val);
             return sEditor.commit();
@@ -44,7 +44,7 @@ public class SharedPreUtil {
         return false;
     }
 
-    public static boolean putFloat(String key, float val) {
+    public static boolean save(String key, float val) {
         if (sEditor != null) {
             sEditor.putFloat(key, val);
             return sEditor.commit();
@@ -53,7 +53,7 @@ public class SharedPreUtil {
         return false;
     }
 
-    public static boolean putLong(String key, long val) {
+    public static boolean save(String key, long val) {
         if (sEditor != null) {
             sEditor.putLong(key, val);
             return sEditor.commit();
@@ -62,7 +62,7 @@ public class SharedPreUtil {
         return false;
     }
 
-    public static boolean putString(String key, String val) {
+    public static boolean save(String key, String val) {
         if (sEditor != null) {
             sEditor.putString(key, val);
             return sEditor.commit();
@@ -71,7 +71,7 @@ public class SharedPreUtil {
         return false;
     }
 
-    public static boolean putStringSet(String key, Set<String> val) {
+    public static boolean save(String key, Set<String> val) {
         if (sEditor != null) {
             sEditor.putStringSet(key, val);
             return sEditor.commit();
@@ -94,6 +94,20 @@ public class SharedPreUtil {
         }
 
         return "";
+    }
+
+    public static void remove(String key) {
+        if (sEditor != null && !TextUtils.isEmpty(key)) {
+            sEditor.remove(key);
+            sEditor.commit();
+        }
+    }
+
+    public static void clear() {
+        if (sEditor != null) {
+            sEditor.clear();
+            sEditor.commit();
+        }
     }
 
 }

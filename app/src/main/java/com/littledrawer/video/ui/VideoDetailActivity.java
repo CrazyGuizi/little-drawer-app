@@ -21,6 +21,7 @@ import com.littledrawer.R;
 import com.littledrawer.common.BaseActivity;
 import com.littledrawer.common.view.CommentView;
 import com.littledrawer.http.bean.Like;
+import com.littledrawer.http.bean.User;
 import com.littledrawer.http.bean.Video;
 import com.littledrawer.http.service.LikeService;
 import com.littledrawer.util.TopicTag;
@@ -37,7 +38,6 @@ public class VideoDetailActivity extends BaseActivity {
     public static final String ARG_VIDEO = "ARG_VIDEO";
     private Video mVideo;
 
-
     private OrientationUtils orientationUtils;
 
     @BindView(R.id.video_player)
@@ -48,6 +48,8 @@ public class VideoDetailActivity extends BaseActivity {
     TextView mAuthor;
     @BindView(R.id.iv_like)
     ImageView mLike;
+    @BindView(R.id.tv_comment)
+    TextView mAddComment;
     @BindView(R.id.tv_like)
     TextView mLikeCount;
     @BindView(R.id.tv_describe)
@@ -97,9 +99,15 @@ public class VideoDetailActivity extends BaseActivity {
         getLikeStatus();
         mLike.setOnClickListener(v -> {
             if (AuthUtil.getInstance().isLogin()) {
-                requestLike();
+                handleLike();
             } else {
                 Toast.makeText(mActivity, getString(R.string.text_please_login), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        mAddComment.setOnClickListener( v -> {
+            if (mCommentView != null) {
+                mCommentView.addComment();
             }
         });
 
@@ -129,7 +137,6 @@ public class VideoDetailActivity extends BaseActivity {
                     // 已经点过赞了
                     mLike.setImageDrawable(getDrawable(R.drawable.icon_like));
                     mLike.setClickable(false);
-                    Toast.makeText(mActivity, getString(R.string.text_have_liked), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -140,7 +147,33 @@ public class VideoDetailActivity extends BaseActivity {
         });
     }
 
-    private void requestLike() {
+    private void handleLike() {
+
+        RetrofitManager manager = RetrofitManager.getInstance();
+        Like like = new Like();
+        like.setTopicType(TopicTag.VIDEO.topicIndex);
+        like.setTopicId(mVideo.id);
+        like.setStatus(1);
+        User liker = new User();
+        liker.setId(AuthUtil.getInstance().getUserId());
+        like.setLiker(liker);
+        manager.request(manager.getService(LikeService.class)
+                .addLike(like), new BaseListener<Like>() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onSuccess(Like like) {
+                mLike.setImageDrawable(getDrawable(R.drawable.icon_like));
+                int likeCount = Integer.parseInt(mLikeCount.getText().toString());
+                mLikeCount.setText("" + (likeCount + 1));
+                mLike.setClickable(false);
+            }
+
+            @Override
+            public void onFail(BaseException e) {
+                Toast.makeText(VideoDetailActivity.this,
+                        e.msg, Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
@@ -154,7 +187,7 @@ public class VideoDetailActivity extends BaseActivity {
         Glide.with(this)
                 .load(mVideo.posterUrl)
                 .placeholder(getDrawable(R.drawable.picture_default))
-        .into(imageView);
+                .into(imageView);
         videoPlayer.setThumbImageView(imageView);
         //增加title
         videoPlayer.getTitleTextView().setVisibility(View.VISIBLE);

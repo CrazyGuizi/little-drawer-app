@@ -17,6 +17,10 @@ import retrofit2.http.POST;
  */
 public interface UserService {
 
+    public static final String USERNAME = "username";
+    public static final String PASSWORD = "password";
+    public static final String NICK_NAME = "nickName";
+
     @POST(Api.USER_LOGIN)
     Call<BaseResponse<User>> login(@Body Map<String, String> map);
 

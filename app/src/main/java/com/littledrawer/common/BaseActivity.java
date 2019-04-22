@@ -64,7 +64,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         mWeakRefActivity = new WeakReference<>(this);
         ActivityManager.add(mWeakRefActivity);
         ButterKnife.bind(this);
-        EventBus.getDefault().register(this);
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
         setupToolbar();
         initWidget();
         initEvent();
@@ -102,7 +104,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         mActivity = null;
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     protected void onMessageEvent(MessageEvent event) {
 
     }

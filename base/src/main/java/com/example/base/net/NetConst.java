@@ -21,7 +21,6 @@ public class NetConst {
 
     public static final String DEVICE_NAME = "device";
     public static final String UID = "u";
-    public static final String NICKNAME = "nickname";
     public static final String HEADER_TOKEN = "X-token";
 
 

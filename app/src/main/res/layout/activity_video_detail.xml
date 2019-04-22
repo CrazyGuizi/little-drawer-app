@@ -65,8 +65,19 @@
                     android:id="@+id/tv_like"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/dp_56"
+                    android:layout_marginRight="@dimen/dp_16"
                     android:text="0"
+                    app:layout_constraintRight_toLeftOf="@id/tv_comment"
+                    app:layout_constraintTop_toTopOf="@id/iv_icon"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_icon"/>
+
+                <TextView
+                    android:id="@+id/tv_comment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/dp_56"
+                    android:textColor="@color/RoyalBlue"
+                    android:text="@string/text_comment"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="@id/iv_icon"
                     app:layout_constraintBottom_toBottomOf="@id/iv_icon"/>

@@ -64,6 +64,12 @@
     <dimen name="dp_150">150dp</dimen>
     <dimen name="dp_200">200dp</dimen>
     <dimen name="dp_250">250dp</dimen>
+    <dimen name="dp_300">300dp</dimen>
+    <dimen name="dp_350">350dp</dimen>
+    <dimen name="dp_400">400dp</dimen>
+    <dimen name="dp_450">450dp</dimen>
+    <dimen name="dp_500">500dp</dimen>
+    <dimen name="dp_550">550dp</dimen>
 
 
 

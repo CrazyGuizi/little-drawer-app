@@ -90,7 +90,9 @@ public class NewsDetailActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.news_comment:
-                Toast.makeText(mActivity, "添加评论", Toast.LENGTH_SHORT).show();
+                if (mComment != null) {
+                    mComment.addComment();
+                }
                 break;
             case R.id.news_report:
                 Toast.makeText(mActivity, "举报", Toast.LENGTH_SHORT).show();

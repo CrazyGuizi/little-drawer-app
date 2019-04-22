@@ -1,7 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/dp_8"
+    android:paddingRight="@dimen/dp_8">
 
-</LinearLayout>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/et_content"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_120"
+        android:maxHeight="@dimen/dp_120"
+        android:background="@drawable/bg_border_edit_text"
+        android:gravity="start"
+        android:padding="@dimen/dp_4"
+        android:scrollbars="vertical"
+        android:layout_centerInParent="true"
+        android:hint="@string/hint_comment"
+        tools:text="哈哈哈哈哈哈或或或或或或或或或或或或或或哈哈哈哈哈哈或或或或或或或或或或或或或或哈哈哈哈哈哈或或或或或或或或或或或或或或或或"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_46"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/et_content">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/bt_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/dp_8"
+            android:maxLines="5"
+            android:text="@string/cancel"
+            tools:text="@string/cancel"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/bt_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/confirm"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

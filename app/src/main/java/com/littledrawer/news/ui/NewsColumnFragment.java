@@ -96,9 +96,6 @@ public class NewsColumnFragment extends BaseFragment {
     }
 
     private void setupData() {
-        if (mRefresh != null && !mRefresh.isRefreshing()) {
-            mRefresh.setRefreshing(true);
-        }
         RetrofitManager rm = RetrofitManager.getInstance();
         Map<String, Object> map = new HashMap<>();
         map.put(NewsService.COLUMN, mColumn.columnName);

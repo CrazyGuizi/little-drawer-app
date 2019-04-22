@@ -5,7 +5,9 @@ import android.content.Context;
 
 import com.example.base.net.AuthUtil;
 import com.littledrawer.util.ActivityManager;
+import com.littledrawer.util.Const;
 import com.littledrawer.util.SharedPreUtil;
+import com.littledrawer.util.Util;
 
 /**
  * @author 土小贵
@@ -20,6 +22,10 @@ public class LittleDrawerApp extends Application {
         super.onCreate();
         sContext = this;
         SharedPreUtil.init(this);
+        String token = SharedPreUtil.getString(Const.KEY_TOKEN);
+        if (!"".equals(token)) {
+            Util.login();
+        }
     }
 
     public static Context getContext() {

@@ -125,14 +125,13 @@ public class VideoTabFragment extends BaseFragment {
     @Override
     protected void initEvent() {
         super.initEvent();
+        mRefresh.setOnRefreshListener(() -> {
+            setupData();
+        });
         setupData();
     }
 
     private void setupData() {
-        if (mRefresh != null && !mRefresh.isRefreshing()) {
-            mRefresh.setRefreshing(true);
-        }
-
         RetrofitManager rm = RetrofitManager.getInstance();
         Map<String, Object> map = new HashMap<>();
         map.put(VideoService.TYPE_INDEX, mVideoType.typeIndex);
@@ -143,9 +142,7 @@ public class VideoTabFragment extends BaseFragment {
             @Override
             public void onSuccess(List<Video> videos) {
 
-                if (mRefresh.isRefreshing()) {
-                    mRefresh.setRefreshing(false);
-                }
+                mRefresh.setRefreshing(false);
                 if (videos != null && !videos.isEmpty()) {
                     mVideos = videos;
                     mAdapter.setNewData(videos);
@@ -154,9 +151,7 @@ public class VideoTabFragment extends BaseFragment {
 
             @Override
             public void onFail(BaseException e) {
-                if (mRefresh.isRefreshing()) {
-                    mRefresh.setRefreshing(false);
-                }
+                mRefresh.setRefreshing(false);
             }
         });
     }

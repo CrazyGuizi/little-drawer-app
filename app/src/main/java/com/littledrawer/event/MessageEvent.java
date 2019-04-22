@@ -6,5 +6,5 @@ package com.littledrawer.event;
  * @author 土小贵
  * @date 2019/4/18 11:39
  */
-public class MessageEvent {
+public abstract class MessageEvent {
 }
