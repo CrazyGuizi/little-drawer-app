@@ -4,5 +4,6 @@
         <domain includeSubdomains="true">192.168.43.3</domain>
         <domain includeSubdomains="true">wx4.sinaimg.cn</domain>
         <domain includeSubdomains="true">www.e4221.com</domain>
+        <domain includeSubdomains="true">n.sinaimg.cn</domain>
     </domain-config>
 </network-security-config>

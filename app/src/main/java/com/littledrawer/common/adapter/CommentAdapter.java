@@ -130,6 +130,7 @@ public class CommentAdapter extends BaseQuickAdapter<Comment, BaseViewHolder> {
         if (!AuthUtil.getInstance().isLogin()) {
             Toast.makeText(mContext,
                     mContext.getString(R.string.text_please_login), Toast.LENGTH_SHORT).show();
+            return;
         }
         TextEditDialog dialog = new TextEditDialog();
         dialog.show(((AppCompatActivity)mContext).getSupportFragmentManager(),

@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.base.net.AuthUtil;
 import com.littledrawer.R;
+import com.littledrawer.common.view.RoundView;
 import com.littledrawer.util.Util;
 
 import androidx.annotation.Nullable;
@@ -25,7 +26,7 @@ import butterknife.ButterKnife;
 public class HeadView extends LinearLayout {
 
     @BindView(R.id.iv_icon)
-    ImageView mIcon;
+    RoundView mIcon;
     @BindView(R.id.tv_user)
     TextView mNickName;
 

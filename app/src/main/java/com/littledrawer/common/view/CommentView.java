@@ -101,6 +101,7 @@ public class CommentView extends LinearLayout {
         if (!AuthUtil.getInstance().isLogin()) {
             Toast.makeText(getContext(),
                     getContext().getString(R.string.text_please_login), Toast.LENGTH_SHORT).show();
+            return;
         }
 
         if (mAdapter != null) {
